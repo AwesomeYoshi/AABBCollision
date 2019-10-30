@@ -33,11 +33,14 @@ namespace ConsoleApp1
             rectangle.MyPoints.Add(new Vector2(20, -20));
             rectangle.MyPoints.Add(new Vector2(20, 20));
             rectangle.MyPoints.Add(new Vector2(-20, 20));
-            rectangle.position = new Vector2(300, 100);
+            rectangle.position = new Vector2(200, 200);
 
 
-            float tv = 0.5f;
-            float sv = -0.5f;
+            //float tv = 0.5f;
+            //float sv = -0.5f;
+
+            Vector2 tv = new Vector2(0.5f,0.5f);
+            Vector2 sv = new Vector2(-0.5f, -.5f);
 
 
             // Main game loop
@@ -105,8 +108,19 @@ namespace ConsoleApp1
                 rectangle.Draw();
                 rectangle.myColor = Color.DARKGREEN;
 
-                triangle.position.x += tv;
-                rectangle.position.x += sv;
+                Vector2 Triangle_Pos_Backup = triangle.position;
+                Vector2 Rect_Pos_Backup = rectangle.position;
+
+                //triangle.position.x += tv;
+                //rectangle.position.x += sv;
+
+                triangle.position += tv;
+                rectangle.position += sv;
+
+
+
+                triangle.myGlobal.Clear();
+                rectangle.myGlobal.Clear();
 
                 foreach (Vector2 v in triangle.MyPoints)
                 {
@@ -122,13 +136,16 @@ namespace ConsoleApp1
 
                 if (triangle.myBox.Overlaps(rectangle.myBox))
                 {
-                    tv = -0.5f;
-                    sv = 0.5f;
+                    //System.Threading.Thread.Sleep(500);
+                    tv *= -1;
+                    sv *= -1;
+
+                    rectangle.position = Rect_Pos_Backup;
+                    triangle.position = Triangle_Pos_Backup;
 
                     triangle.myColor = Color.RED;
                     rectangle.myColor = Color.RED;
                 }
-
 
 
                 //TODO:Move the 2nd object so that it is on a collision course with the triangle
